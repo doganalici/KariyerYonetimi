@@ -1,0 +1,29 @@
+﻿@model List<KariyerYonetimi.Models.Personel>
+
+<h1>Şirket Personel Listesi</h1>
+<p>Aktif çalışanlarımızın listesi aşağıdadır:</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Ad Soyad</th>
+            <th>Unvan</th>
+            <th>E-Posta</th>
+            <th>Maaş</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var personel in Model)
+        {
+            <tr>
+                <td>@personel.Id</td>
+                <td>@personel.Ad @personel.Soyad</td>
+                <td>@personel.Unvan</td>
+                <td>@personel.Email</td>
+                <td>@personel.Maas.ToString("C2")</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<h3>Aylık Maaş Toplamı: @Model.Sum(p => p.Maas).ToString("C2")</h3>

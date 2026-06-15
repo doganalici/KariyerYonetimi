@@ -54,6 +54,19 @@ namespace KariyerYonetimi.Controllers
             };
             return View(personelListesi);
         }
+
+        public IActionResult PersonelDetay(int id)
+        {
+            // Burada id'ye göre personel detaylarýný alabilirsiniz.
+            List<Personel> personelListesi = new List<Personel>()
+            {
+                 new Personel{Id=1,Ad="Ahmet",Soyad="Yýlmaz",Email="ahmetyilmaz@example.com",Telefon="1234567890",Unvan="Müdür",Maas=70000},
+                new Personel{Id=2,Ad="Ayþe",Soyad="Demir",Email="aysedemir@example.com",Telefon="0987654321",Unvan="Uzman",Maas=40000},
+                new Personel{Id=3,Ad="Mehmet",Soyad="Kara",Email="mehmetkara@example.com" ,Telefon="5555555555",Unvan="Stajyer",Maas=20000}
+            };
+            var bulunanPersonel = personelListesi.FirstOrDefault(p => p.Id == id);
+            return View(bulunanPersonel);
+        }
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });

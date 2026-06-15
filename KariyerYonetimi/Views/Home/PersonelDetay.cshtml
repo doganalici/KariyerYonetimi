@@ -1,0 +1,17 @@
+﻿@model KariyerYonetimi.Models.Personel
+
+<h1>Personel Detayları</h1>
+<hr />
+
+<div class="card" style="width: 20rem;">
+    <div class="card-body">
+        <h5 class="card-title">@Model.Ad @Model.Soyad</h5>
+        <h6 class="card-subtitle mb-2 text-muted"><strong>Unvan:</strong> @Model.Unvan</h6>
+        <p class="card-text">
+            <strong>E-Posta:</strong> @Model.Email<br>
+            <strong>Telefon:</strong> @Model.Telefon<br>
+            <strong>Maaş:</strong> @Model.Maas.ToString("C2")
+        </p>
+        <a asp-controller="Home" asp-action="Personeller" class="btn btn-primary">Listeye Geri Dön</a>
+    </div>
+</div>

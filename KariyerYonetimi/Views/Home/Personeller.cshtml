@@ -11,6 +11,7 @@
             <th>Unvan</th>
             <th>E-Posta</th>
             <th>Maaş</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -22,6 +23,9 @@
                 <td>@personel.Unvan</td>
                 <td>@personel.Email</td>
                 <td>@personel.Maas.ToString("C2")</td>
+                <td>
+                    <a asp-controller="Home" asp-action="PersonelDetay" asp-route-id="@personel.Id" class="btn btn-sm btn-info">Detay Gör</a>
+                </td>
             </tr>
         }
     </tbody>

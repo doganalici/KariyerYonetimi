@@ -26,6 +26,7 @@
                 <td>@personel.Maas.ToString("C2")</td>
                 <td>
                     <a asp-controller="Home" asp-action="PersonelDetay" asp-route-id="@personel.Id" class="btn btn-sm btn-info">Detay Gör</a>
+                    <a asp-controller="Home" asp-action="PersonelSil" asp-route-id="@personel.Id" class="btn btn-sm btn-danger" onclick="return confirm('Bu personeli silmek istediğinize emin misiniz?');">Sil</a>
                 </td>
             </tr>
         }

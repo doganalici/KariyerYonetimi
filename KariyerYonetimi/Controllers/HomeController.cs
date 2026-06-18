@@ -87,6 +87,16 @@ namespace KariyerYonetimi.Controllers
             personelListesi.Add(yeniPersonel);
             return RedirectToAction("Personeller");
         }
+
+        public IActionResult PersonelSil(int id)
+        {
+            var personelToRemove = personelListesi.FirstOrDefault(p => p.Id == id);
+            if (personelToRemove != null)
+            {
+                personelListesi.Remove(personelToRemove);
+            }
+            return RedirectToAction("Personeller");
+        }
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });

@@ -2,6 +2,7 @@ using System.Diagnostics;
 using KariyerYonetimi.Data;
 using KariyerYonetimi.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace KariyerYonetimi.Controllers
 {
@@ -47,7 +48,7 @@ namespace KariyerYonetimi.Controllers
             return View(sirket);
         }
 
-        public IActionResult Personeller()
+        async public Task<IActionResult> Personeller()
         {
             //List<Personel> personelListesi = new List<Personel>()
             //{
@@ -55,10 +56,10 @@ namespace KariyerYonetimi.Controllers
             //    new Personel{Id=2,Ad="Ayþe",Soyad="Demir",Email="aysedemir@example.com",Telefon="0987654321",Unvan="Uzman",Maas=40000},
             //    new Personel{Id=3,Ad="Mehmet",Soyad="Kara",Email="mehmetkara@example.com" ,Telefon="5555555555",Unvan="Stajyer",Maas=20000}
             //};
-            return View(_context.Personeller.ToList());
+            return View(await _context.Personeller.ToListAsync());
         }
 
-        public IActionResult PersonelDetay(int id)
+        async public Task<IActionResult> PersonelDetay(int id)
         {
             //List<Personel> personelListesi = new List<Personel>()
             //{
@@ -66,36 +67,62 @@ namespace KariyerYonetimi.Controllers
             //    new Personel{Id=2,Ad="Ayþe",Soyad="Demir",Email="aysedemir@example.com",Telefon="0987654321",Unvan="Uzman",Maas=40000},
             //    new Personel{Id=3,Ad="Mehmet",Soyad="Kara",Email="mehmetkara@example.com" ,Telefon="5555555555",Unvan="Stajyer",Maas=20000}
             //};
-            var bulunanPersonel = _context.Personeller.FirstOrDefault(p => p.Id == id);
+            var bulunanPersonel = await _context.Personeller.FirstOrDefaultAsync(p => p.Id == id);
             return View(bulunanPersonel);
         }
 
         [HttpGet]
-        public IActionResult PersonelEkle()
+        async public Task<IActionResult> PersonelEkle()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult PersonelEkle(Personel yeniPersonel)
+        async public Task<IActionResult> PersonelEkle(Personel yeniPersonel)
         {
             _context.Personeller.Add(yeniPersonel);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return RedirectToAction("Personeller");
         }
 
-        public IActionResult PersonelSil(int id)
+        public async Task<IActionResult> PersonelSil(int id)
         {
-            var personelToRemove = _context.Personeller.FirstOrDefault(p => p.Id == id);
+            var personelToRemove = await _context.Personeller.FirstOrDefaultAsync(p => p.Id == id);
             if (personelToRemove != null)
             {
                 _context.Personeller.Remove(personelToRemove);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
             return RedirectToAction("Personeller");
         }
-        public IActionResult Error()
+
+        [HttpGet]
+        public async Task<IActionResult> PersonelGuncelle(int id)
         {
+            var personelToUpdate = await _context.Personeller.FirstOrDefaultAsync(p => p.Id == id);
+            if (personelToUpdate != null)
+            {
+                return View(personelToUpdate);
+            }
+            return RedirectToAction("Personeller");
+        }
+
+        [HttpPost]
+        async public Task<IActionResult> PersonelGuncelle(Personel guncellenenPersonel)
+        {
+            var personelToUpdate = await _context.Personeller.FirstOrDefaultAsync(p => p.Id == guncellenenPersonel.Id);
+            if (personelToUpdate != null)
+            {
+                personelToUpdate.Ad = guncellenenPersonel.Ad;
+                personelToUpdate.Soyad = guncellenenPersonel.Soyad;
+                personelToUpdate.Email = guncellenenPersonel.Email;
+                personelToUpdate.Telefon = guncellenenPersonel.Telefon;
+                personelToUpdate.Unvan = guncellenenPersonel.Unvan;
+                personelToUpdate.Maas = guncellenenPersonel.Maas;
+
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Personeller");
+            }
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }

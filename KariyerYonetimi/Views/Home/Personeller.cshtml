@@ -1,12 +1,10 @@
 ﻿@model List<KariyerYonetimi.Models.Personel>
 
-
-
 <div class="container mt-4">
-    <h1 class="text-light fw-bold mb-3">Şirket Personel Kadrosu</h1>
+    <h1 class="text-body-emphasis fw-bold mb-3">Şirket Personel Kadrosu</h1>
 
     <div class="d-flex justify-content-end mb-4">
-        <a asp-controller="Home" asp-action="PersonelEkle" class="btn btn-primary btn-lg shadow-sm">+ Yeni Personel Ekle</a>
+        <a asp-controller="Home" asp-action="PersonelEkle" class="btn btn-primary btn-lg shadow-sm"> Yeni Personel Ekle </a>
     </div>
 
     <hr class="text-secondary" />
@@ -15,28 +13,44 @@
         @foreach (var personel in Model)
         {
             <div class="col">
-                <div class="card h-100 shadow border-0 bg-dark text-light">
+                <div class="card h-100 shadow border-0 bg-dark text-white-50">
                     <div class="card-body">
                         <div class="d-flex align-items-center mb-3">
                             <div class="rounded-circle bg-secondary p-3 me-3 d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
                                 <i class="bi bi-person-fill fs-4 text-white">👤</i>
                             </div>
                             <div>
-                                <h5 class="card-title mb-0 fw-bold">@personel.Ad @personel.Soyad</h5>
+                                <h5 class="card-title mb-0 fw-bold text-white">@personel.Ad @personel.Soyad</h5>
                                 <small class="text-info">@personel.Unvan</small>
                             </div>
                         </div>
 
-                        <p class="card-text mb-1"><strong class="text-muted">E-Posta:</strong> @personel.Email</p>
-                        <p class="card-text mb-1"><strong class="text-muted">Telefon:</strong> @personel.Telefon</p>
-                        <p class="card-text"><strong class="text-muted">Maaş:</strong> <span class="text-success fw-bold">₺@personel.Maas.ToString("N2")</span></p>
+                        <p class="card-text mb-1">
+                            <strong class="text-white fw-bold">E-Posta:</strong>
+                            <span class="text-white-50">@personel.Email</span>
+                        </p>
+                        <p class="card-text mb-1">
+                            <strong class="text-white fw-bold">Telefon:</strong>
+                            <span class="text-white-50">@personel.Telefon</span>
+                        </p>
+                        <p class="card-text">
+                            <strong class="text-white fw-bold">Maaş:</strong>
+                            <span class="text-success fw-bold">₺@personel.Maas.ToString("N2")</span>
+                        </p>
                     </div>
 
-                    <div class="card-footer bg-transparent border-top border-secondary d-flex justify-content-between">
+                    <div class="card-footer bg-transparent border-top border-secondary d-flex justify-content-between align-items-center">
                         <a asp-controller="Home" asp-action="PersonelDetay" asp-route-id="@personel.Id" class="btn btn-outline-info btn-sm">Detay Gör</a>
-                        <div class="btn-group">
+
+                        <div class="d-flex gap-2">
                             <a asp-controller="Home" asp-action="PersonelGuncelle" asp-route-id="@personel.Id" class="btn btn-warning btn-sm">Güncelle</a>
-                            <a asp-controller="Home" asp-action="PersonelSil" asp-route-id="@personel.Id" class="btn btn-danger btn-sm" onclick="return confirm('Bu personeli silmek istediğinize emin misiniz?')">Sil</a>
+
+                            <a href="#"
+                               data-href="@Url.Action("PersonelSil", "Home", new { id = personel.Id })"
+                               data-isim="@personel.Ad @personel.Soyad"
+                               class="btn btn-danger btn-sm sil-buton-tetikleyici"
+                               data-bs-toggle="modal"
+                               data-bs-target="#silmeOnayModal">Sil</a>
                         </div>
                     </div>
                 </div>
@@ -51,3 +65,46 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="silmeOnayModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark text-light border-secondary shadow-lg">
+            <div class="modal-header border-bottom border-secondary">
+                <h5 class="modal-title fw-bold text-danger">⚠️ Personel Silme Onayı</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-start py-3">
+                <p class="mb-0">Bu personeli (<strong id="modalPersonelAd" class="text-white"></strong>) sistemden tamamen silmek istediğinize emin misiniz?</p>
+                <small class="text-white-50">Bu işlem geri alınamaz ve tüm veriler kalıcı olarak temizlenir.</small>
+            </div>
+            <div class="modal-footer border-top border-secondary">
+                <button type="button" class="btn btn-outline-light px-3" data-bs-dismiss="modal">İptal Et</button>
+                <a id="modalSilButon" href="#" class="btn btn-danger px-4 shadow-sm">Evet, Sil</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const silButonlari = document.querySelectorAll('.sil-buton-tetikleyici');
+            const modalSilButon = document.getElementById('modalSilButon');
+            const modalPersonelAd = document.getElementById('modalPersonelAd');
+
+            silButonlari.forEach(buton => {
+                buton.addEventListener('click', function (e) {
+                    e.preventDefault(); // Sayfa geçişini durdur
+
+                    // Butonun üzerindeki data özelliklerini oku
+                    const silmeLinki = this.getAttribute('data-href');
+                    const personelIsim = this.getAttribute('data-isim');
+
+                    // Modalın içine dinamik olarak yaz
+                    modalSilButon.setAttribute('href', silmeLinki);
+                    modalPersonelAd.textContent = personelIsim;
+                });
+            });
+        });
+    </script>
+}

@@ -1,33 +1,55 @@
 ﻿@model KariyerYonetimi.Models.Personel
 
-<h1>Personel Güncelle</h1>
-<hr />
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-lg border-0 bg-dark text-light">
+                <div class="card-header bg-transparent border-bottom border-secondary pt-4 pb-3 text-center">
+                    <h3 class="fw-bold text-primary mb-0">✨ Personel Bilgilerini Güncelle</h3>
+                    <small class="text-muted">Sistemde bulunan mevcut bir çalışanı güncelleyin</small>
+                </div>
 
-<form asp-controller="Home" asp-action="PersonelGuncelle" method="post">
-    <input type="hidden" asp-for="Id" />
-    <div class="form-group mb-3">
-        <label asp-for="Ad"></label>
-        <input asp-for="Ad" class="form-control" />
+                <div class="card-body p-4">
+                    <form asp-controller="Home" asp-action="PersonelGuncelle" method="post">
+                        <input type="hidden" asp-for="Id" />
+                        <div class="form-floating mb-3 text-dark">
+                            <input asp-for="Ad" class="form-control bg-secondary text-white border-0" placeholder="Ad" required />
+                            <label asp-for="Ad" class="text-light">Personel Adı</label>
+                        </div>
+
+                        <div class="form-floating mb-3 text-dark">
+                            <input asp-for="Soyad" class="form-control bg-secondary text-white border-0" placeholder="Soyad" required />
+                            <label asp-for="Soyad" class="text-light">Personel Soyadı</label>
+                        </div>
+
+                        <div class="form-floating mb-3 text-dark">
+                            <input asp-for="Email" type="email" class="form-control bg-secondary text-white border-0" placeholder="name@example.com" required />
+                            <label asp-for="Email" class="text-light">E-Posta Adresi</label>
+                        </div>
+
+                        <div class="form-floating mb-3 text-dark">
+                            <input asp-for="Telefon" type="tel" class="form-control bg-secondary text-white border-0" placeholder="0555..." />
+                            <label asp-for="Telefon" class="text-light">Telefon Numarası</label>
+                        </div>
+
+                        <div class="form-floating mb-3 text-dark">
+                            <input asp-for="Unvan" class="form-control bg-secondary text-white border-0" placeholder="Unvan" required />
+                            <label asp-for="Unvan" class="text-light">Şirket İçi Unvanı</label>
+                        </div>
+
+                        <div class="form-floating mb-4 text-dark">
+                            <input asp-for="Maas" type="number" class="form-control bg-secondary text-white border-0" placeholder="Maaş" required />
+                            <label asp-for="Maas" class="text-light">Aylık Net Maaş (TL)</label>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a asp-action="Personeller" class="btn btn-outline-secondary me-md-2">İptal Et</a>
+                            <button type="submit" class="btn btn-primary px-4 shadow">Personel Güncellemesini Kaydet</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="form-group  mb-3">
-        <label asp-for="Soyad"></label>
-        <input asp-for="Soyad" class="form-control" />
-    </div>
-    <div class="form-group  mb-3">
-        <label asp-for="Email"></label>
-        <input asp-for="Email" class="form-control" />
-    </div>
-    <div class="form-group  mb-3">
-        <label asp-for="Telefon"></label>
-        <input asp-for="Telefon" class="form-control" />
-    </div>
-    <div class="form-group  mb-3">
-        <label asp-for="Unvan"></label>
-        <input asp-for="Unvan" class="form-control" />
-    </div>
-    <div class="form-group  mb-3">
-        <label asp-for="Maas"></label>
-        <input asp-for="Maas" class="form-control" />
-    </div>
-    <button type="submit" class="btn btn-success">Personeli Kaydet</button>
-</form>
+</div>

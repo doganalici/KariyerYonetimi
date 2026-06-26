@@ -8,5 +8,7 @@ namespace KariyerYonetimi.Data
         {
         }
         public DbSet<KariyerYonetimi.Models.Personel> Personeller { get; set; }
+
+        public DbSet<KariyerYonetimi.Models.Departman> Departmanlar { get; set; }
     }
 }

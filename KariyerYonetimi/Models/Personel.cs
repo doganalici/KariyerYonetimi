@@ -9,5 +9,7 @@
         public string Telefon { get; set; }
         public string Unvan { get; set; }
         public int Maas { get; set; }
+        public int DepartmanId { get; set; }
+        public Departman Departman { get; set; }
     }
 }

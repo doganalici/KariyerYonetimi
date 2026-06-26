@@ -2,6 +2,7 @@ using System.Diagnostics;
 using KariyerYonetimi.Data;
 using KariyerYonetimi.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace KariyerYonetimi.Controllers
@@ -55,28 +56,28 @@ namespace KariyerYonetimi.Controllers
 
         async public Task<IActionResult> PersonelDetay(int id)
         {
-            //List<Personel> personelListesi = new List<Personel>()
-            //{
-            //     new Personel{Id=1,Ad="Ahmet",Soyad="Yýlmaz",Email="ahmetyilmaz@example.com",Telefon="1234567890",Unvan="Müdür",Maas=70000},
-            //    new Personel{Id=2,Ad="Ayþe",Soyad="Demir",Email="aysedemir@example.com",Telefon="0987654321",Unvan="Uzman",Maas=40000},
-            //    new Personel{Id=3,Ad="Mehmet",Soyad="Kara",Email="mehmetkara@example.com" ,Telefon="5555555555",Unvan="Stajyer",Maas=20000}
-            //};
-            var bulunanPersonel = await _context.Personeller.FirstOrDefaultAsync(p => p.Id == id);
+            var bulunanPersonel = await _context.Personeller.Include(p => p.Departman).FirstOrDefaultAsync(p => p.Id == id);
             return View(bulunanPersonel);
         }
 
         [HttpGet]
         async public Task<IActionResult> PersonelEkle()
         {
+            ViewBag.Departmanlar = await _context.Departmanlar.Select(d => new SelectListItem { Text = d.Ad, Value = d.Id.ToString() }).ToListAsync();
             return View();
         }
 
         [HttpPost]
-        async public Task<IActionResult> PersonelEkle(Personel yeniPersonel)
+        async public Task<IActionResult> PersonelEkle(Personel p)
         {
-            _context.Personeller.Add(yeniPersonel);
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Personeller");
+            if (ModelState.IsValid)
+            {
+                _context.Personeller.Add(p);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Personeller");
+            }
+            ViewBag.Departmanlar = await _context.Departmanlar.Select(d => new SelectListItem { Text = d.Ad, Value = d.Id.ToString() }).ToListAsync();
+            return View(p);
         }
 
         public async Task<IActionResult> PersonelSil(int id)

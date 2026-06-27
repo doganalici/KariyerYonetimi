@@ -97,6 +97,7 @@ namespace KariyerYonetimi.Controllers
             var personelToUpdate = await _context.Personeller.FirstOrDefaultAsync(p => p.Id == id);
             if (personelToUpdate != null)
             {
+                ViewBag.Departmanlar = await _context.Departmanlar.Select(d => new SelectListItem { Text = d.Ad, Value = d.Id.ToString() }).ToListAsync();
                 return View(personelToUpdate);
             }
             return RedirectToAction("Personeller");
@@ -112,7 +113,7 @@ namespace KariyerYonetimi.Controllers
                 personelToUpdate.Soyad = guncellenenPersonel.Soyad;
                 personelToUpdate.Email = guncellenenPersonel.Email;
                 personelToUpdate.Telefon = guncellenenPersonel.Telefon;
-                personelToUpdate.Unvan = guncellenenPersonel.Unvan;
+                personelToUpdate.DepartmanId = guncellenenPersonel.DepartmanId;
                 personelToUpdate.Maas = guncellenenPersonel.Maas;
 
                 await _context.SaveChangesAsync();

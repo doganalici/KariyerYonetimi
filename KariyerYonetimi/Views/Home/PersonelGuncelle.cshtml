@@ -33,8 +33,11 @@
                         </div>
 
                         <div class="form-floating mb-3 text-dark">
-                            <input asp-for="Unvan" class="form-control bg-secondary text-white border-0" placeholder="Unvan" required />
-                            <label asp-for="Unvan" class="text-light">Şirket İçi Unvanı</label>
+                            @* <input asp-for="Unvan" class="form-control bg-secondary text-white border-0" placeholder="Unvan" required /> *@
+                            <select asp-for="DepartmanId" asp-items="@ViewBag.Departmanlar" class="form-select bg-dark text-light border-secondary" required>
+                                <option value="">Lütfen Departman Seçiniz</option>
+                            </select>
+                            <label asp-for="DepartmanId" class="text-light">Şirket İçi Departman</label>
                         </div>
 
                         <div class="form-floating mb-4 text-dark">

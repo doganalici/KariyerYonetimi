@@ -113,6 +113,7 @@ namespace KariyerYonetimi.Controllers
                 personelToUpdate.Soyad = guncellenenPersonel.Soyad;
                 personelToUpdate.Email = guncellenenPersonel.Email;
                 personelToUpdate.Telefon = guncellenenPersonel.Telefon;
+                personelToUpdate.Telefon2 = guncellenenPersonel.Telefon2;
                 personelToUpdate.DepartmanId = guncellenenPersonel.DepartmanId;
                 personelToUpdate.Maas = guncellenenPersonel.Maas;
 

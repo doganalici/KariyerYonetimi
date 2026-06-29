@@ -28,8 +28,14 @@
                         </div>
 
                         <div class="form-floating mb-3 text-dark">
-                            <input asp-for="Telefon" type="tel" class="form-control bg-secondary text-white border-0" placeholder="0555..." />
+                            <input asp-for="Telefon" type="tel" class="form-control bg-secondary text-white border-0" placeholder="0555..."  required />
                             <label asp-for="Telefon" class="text-light">Telefon Numarası</label>
+                            <span id="telefon-hata" class="text-danger small"></span>
+                        </div>
+                        <div class="form-floating mb-3 text-dark">
+                            <input asp-for="Telefon2" type="tel" class="form-control bg-secondary text-white border-0" placeholder="0555..." />
+                            <label asp-for="Telefon2" class="text-light">İkinci Telefon Numarası (Opsiyonel)</label>
+                            <span id="telefon2-hata" class="text-danger small"></span>
                         </div>
 
                         <div class="form-floating mb-3 text-dark">
@@ -55,4 +61,46 @@
             </div>
         </div>
     </div>
-</div>
+</div
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.8/jquery.inputmask.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            // Maskeleri tanımla
+            $('#Telefon').inputmask('0(999) 999 99 99');
+            $('#Telefon2').inputmask('0(999) 999 99 99');
+
+            // Form gönderilirken doğruluğu kontrol et
+            $('form').on('submit', function(e) {
+                var hataVar = false;
+
+                // Temizleme: Önceki hataları sil
+                $('#telefon-hata').text('');
+                $('#telefon2-hata').text('');
+
+                // 1. Telefon Kontrolü (Zorunlu ve Tam Olmalı)
+                var tel1 = $('#Telefon').val();
+                if (!tel1 || $('#Telefon').inputmask('isComplete') === false) {
+                    $('#telefon-hata').text('Lütfen telefon numarasını eksiksiz giriniz.');
+                    hataVar = true;
+                }
+
+                // 2. Telefon Kontrolü (Opsiyonel: Boşsa geç, doldurulduysa TAM olmak zorunda)
+                var tel2 = $('#Telefon2').val();
+                // Maske dolayısıyla sadece "0(   )    " gibi kalmışsa veya tamamen boşsa kontrol etme
+                var sadeceMaskeMi = tel2.replace(/[^0-9]/g, '').length <= 1; // Sadece baştaki '0' kalmışsa
+
+                if (!sadeceMaskeMi && $('#Telefon2').inputmask('isComplete') === false) {
+                    $('#telefon2-hata').text('Lütfen ikinci telefon numarasını eksiksiz giriniz.');
+                    hataVar = true;
+                }
+
+                // Eğer herhangi bir hata varsa formu göndermeyi engelle
+                if (hataVar) {
+                    e.preventDefault();
+                }
+            });
+        });
+    </script>
+}

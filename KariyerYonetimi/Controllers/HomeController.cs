@@ -30,7 +30,7 @@ namespace KariyerYonetimi.Controllers
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
 
-        public IActionResult Hakkimizda()
+        public async Task<IActionResult> Hakkimizda()
         {
             SirketBilgisi sirket = new SirketBilgisi();
 
@@ -39,13 +39,7 @@ namespace KariyerYonetimi.Controllers
             sirket.Sektor = "Eðitim";
             sirket.KurulusYili = 2024;
             sirket.KacYillik = DateTime.Now.Year - sirket.KurulusYili;
-            sirket.PersonelSayisi = 50;
-
-
-            ////VievBag.ÝstediðinÝsim="Deðer";
-            //ViewBag.SirketAdi ="Kariyer Yönetimi A.Þ.";
-            //ViewBag.KurulusYili = 2024;
-            //ViewBag.KacYillik= DateTime.Now.Year - ViewBag.KurulusYili;
+            sirket.PersonelSayisi = await _context.Personeller.CountAsync();
             return View(sirket);
         }
 

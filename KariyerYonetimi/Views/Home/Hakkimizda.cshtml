@@ -1,13 +1,57 @@
 ﻿@model KariyerYonetimi.Models.SirketBilgisi
 
-<h1>Biz Kimiz?</h1>
-<p>Bu proje, benim kariyer yönetimi alanında deneyim kazanmamı sağlayan bir platformdur.</p>
+<div class="text-center mb-4">
+    <h2 class="fw-bold text-primary mb-1">✨ Biz Kimiz?</h2>
+</div>
 
-<hr>
 
-<h3>Şirket Bilgileri</h3>
-<p><strong>Şirket Adı: </strong> @Model.SirketAdi</p>
-<p><strong>Sektörü : </strong>@Model.Sektor</p>
-<p><strong>Kuruluş Yılı: </strong> @Model.KurulusYili</p>
-<p><strong>Kaç Yıllık: </strong> @Model.KacYillik</p>
-<p><strong>Personel Sayısı: </strong>@Model.PersonelSayisi</p>
+<div class="container d-flex justify-content-center align-items-center min-vh-150 py-5">
+    <div class="card bg-dark text-white border-0 shadow-lg p-4" style="width: 100%; max-width: 600px; border-radius: 15px;">
+
+        <div class="text-center mb-4">
+            <h2 class="fw-bold text-primary">✨ @Model.SirketAdi</h2>
+            <p class="text-muted small">Kurumsal Kariyer ve Yönetim Sistemleri</p>
+            <hr class="border-secondary my-3" />
+        </div>
+
+        <div class="row g-3 text-center mb-4">
+            <div class="col-6">
+                <div class="p-3 bg-secondary bg-opacity-25 rounded-3 border border-secondary border-opacity-25">
+                    <h3 class="fw-bold text-warning mb-1">@Model.KacYillik</h3>
+                    <p class="text-light small mb-0">Yıllık Deneyim</p>
+                </div>
+            </div>
+
+            <div class="col-6">
+                <div class="p-3 bg-secondary bg-opacity-25 rounded-3 border border-secondary border-opacity-25">
+                    <h3 class="fw-bold text-success mb-1">@Model.PersonelSayisi</h3>
+                    <p class="text-light small mb-0">Aktif Personel</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-secondary bg-opacity-10 p-3 rounded-3 mb-4 text-start">
+            <div class="d-flex justify-content-between mb-2 pb-2 border-bottom border-secondary border-opacity-25">
+                <span class="text-muted">Faaliyet Sektörü:</span>
+                <span class="fw-semibold text-light">@Model.Sektor</span>
+            </div>
+            <div class="d-flex justify-content-between">
+                <span class="text-muted">Kuruluş Yılı:</span>
+                <span class="fw-semibold text-light">@Model.KurulusYili</span>
+            </div>
+        </div>
+
+        <div class="text-center text-muted px-2 mb-4">
+            <p class="small fst-italic">
+                "Geleceğin iş gücünü modern, dinamik ve sürdürülebilir yönetim sistemleriyle bugünden inşa ediyoruz."
+            </p>
+        </div>
+
+        <div class="text-center">
+            <a asp-action="Personeller" class="btn btn-outline-primary btn-sm px-4 rounded-pill">
+                <i class="bi bi-arrow-left me-1"></i> Personel Listesine Dön
+            </a>
+        </div>
+
+    </div>
+</div>
